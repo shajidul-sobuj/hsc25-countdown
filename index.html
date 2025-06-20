@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HSC 2025 Countdown</title>
+  <style>
+
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="light">
+  <nav>📘 HSC 2025 Countdown & Info</nav>
+  <div class="toggle">
+    <!-- <button onclick="toggleTheme()">🌗 থিম বদলাও</button> -->
+  </div>
+  <div class="info-box">
+    HSC 2025 পরীক্ষা শুরু 📅 <strong>২৬ জুন ২০২৫</strong> থেকে।<br>
+    সকালের সময়: ১০টা-১টা, বিকেলের সময়: ২টা-৫টা।<br>
+    এখানে আপনি লাইভ কাউন্টডাউন ও পরবর্তী পরীক্ষার আপডেট দেখতে পাবেন।
+  </div>
+  <div class="container" id="exam-highlight"></div>
+  <div class="container" id="exam-list"></div>
+
+  <script>
+    const body = document.body;
+    function toggleTheme() {
+      body.classList.toggle('dark');
+      body.classList.toggle('light');
+    }
+
+    const examDataURL = '/exams.json'; // URL to fetch exam data
+
+    async function fetchExams() {
+      const res = await fetch(examDataURL);
+      return res.json();
+    }
+
+    function getRemainingTime(target) {
+      const now = new Date();
+      const total = Date.parse(target) - now;
+      const seconds = Math.floor((total / 1000) % 60);
+      const minutes = Math.floor((total / 1000 / 60) % 60);
+      const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+      const days = Math.floor(total / (1000 * 60 * 60 * 24));
+      return { total, days, hours, minutes, seconds };
+    }
+
+    async function renderExams() {
+      const exams = await fetchExams();
+      const now = new Date();
+      // Only keep exams whose date is in the future
+      const upcoming = exams
+        .filter(e => new Date(e.date) > now)
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      const highlightBox = document.getElementById("exam-highlight");
+      const listBox = document.getElementById("exam-list");
+      highlightBox.innerHTML = "";
+      listBox.innerHTML = "";
+
+      if (upcoming.length > 0) {
+        const next = upcoming[0];
+        const remain = getRemainingTime(next.date);
+        const high = document.createElement("div");
+        high.className = "info-box highlight-upcoming";
+        high.innerHTML = `🔔 পরবর্তী পরীক্ষা: <br><br><strong>${next.subject}</strong><br>
+        📅 ${new Date(next.date).toLocaleDateString("bn-BD")} | 🕒 ${next.shift}<br>
+        ⏳ বাকি: ${remain.days} দিন ${remain.hours} ঘণ্টা ${remain.minutes} মিনিট ${remain.seconds} সেকেন্ড`;
+        highlightBox.appendChild(high);
+      }
+
+      upcoming.forEach((exam) => {
+        const div = document.createElement("div");
+        div.className = "exam";
+        const remain = getRemainingTime(exam.date);
+        div.innerHTML = `
+          <div class="subject">${exam.subject}</div>
+          <div class="date">📅 ${new Date(exam.date).toLocaleDateString("bn-BD")}</div>
+          <div class="time">🕒 সময়: ${exam.shift}</div>
+          <div class="countdown">⏳ বাকি সময়: ${remain.days} দিন ${remain.hours} ঘণ্টা ${remain.minutes} মিনিট ${remain.seconds} সেকেন্ড</div>
+        `;
+        listBox.appendChild(div);
+      });
+    }
+
+    setInterval(renderExams, 1000);
+    renderExams();
+
+    if ("Notification" in window && Notification.permission !== "denied") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          new Notification("📅 HSC 2025 Countdown চালু হয়েছে!", {
+            body: "পরবর্তী পরীক্ষার সময় দেখে নিন।",
+          });
+        }
+      });
+    }
+  </script>
+  <footer class="footer-custom">
+    Developed by <a href="https://github.com/shajidul-sobuj" target="_blank" rel="noopener" class="footer-link">Shajidul Islam Sobuj</a> | © 2025
+  </footer>
+</body>
+</html>

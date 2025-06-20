@@ -1,0 +1,85 @@
+:root {
+      --bg-light: #f4f4f4;
+      --text-light: #000;
+      --card-light: #fff;
+      --bg-dark: #1e1e1e;
+      --text-dark: #fff;
+      --card-dark: #2e2e2e;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+    .light {
+      --bg: var(--bg-light);
+      --text: var(--text-light);
+      --card: var(--card-light);
+    }
+    .dark {
+      --bg: var(--bg-dark);
+      --text: var(--text-dark);
+      --card: var(--card-dark);
+    }
+    nav {
+      background: #2196f3;
+      padding: 1rem;
+      text-align: center;
+      color: white;
+      font-size: 1.2rem;
+    }
+    .toggle {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      background: #2196f3;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .info-box {
+      background: var(--card);
+      padding: 1rem;
+      margin: 1rem auto;
+      border-radius: 0.5rem;
+      max-width: 800px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .highlight-upcoming {
+      background: #e3f2fd;
+      border: 2px solid #2196f3;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 1rem;
+    }
+    .exam {
+      background: var(--card);
+      border-left: 6px solid #2196f3;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .subject { font-size: 1.2rem; font-weight: bold; }
+    .time, .date, .shift, .countdown { margin-top: 0.3rem; }
+    @media (max-width: 600px) {
+      .subject { font-size: 1rem; }
+    }
+    .footer-custom {
+      text-align: center;
+      margin: 2rem 0;
+      color: gray;
+      font-size: 0.95rem;
+      line-break: anywhere;
+    }
