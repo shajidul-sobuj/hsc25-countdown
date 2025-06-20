@@ -83,3 +83,25 @@
       font-size: 0.95rem;
       line-break: anywhere;
     }
+    .navbar {
+            width: 100%;
+            background: #2196f3;
+            padding: 0.7rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            box-shadow: 0 2px 8px rgba(33,150,243,0.07);
+        }
+        .nav-btn {
+            color: #fff;
+            background: transparent;
+            border: none;
+            font-size: 0.7em;
+            font-weight: 500;
+            padding: 0.4em 1.2em;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.18s;
+        }
+       
